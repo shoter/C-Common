@@ -14,7 +14,7 @@ namespace Common.Operations
         public MethodResultType Status { get; set; }
         public List<string> Errors { get; set; } = new List<string>();
 
-        public MethodResult() { }
+        public MethodResult() { Status = MethodResultType.Success; }
         public MethodResult(string error)
         {
             AddError(error);
@@ -46,7 +46,7 @@ namespace Common.Operations
 
         public static explicit operator bool(MethodResult result)
         {
-            return result.IsError == false;
+            return result.isSuccess;
         }
     }
 }
