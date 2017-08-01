@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Base64.cs" />
     <Compile Include="Exceptions\UserReadableException.cs" />
+    <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Operations\MethodResult.cs" />
     <Compile Include="Operations\MethodResultError.cs" />
     <Compile Include="Operations\MethodResultType.cs" />
