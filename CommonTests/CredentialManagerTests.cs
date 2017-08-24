@@ -14,7 +14,7 @@ namespace CommonTests
     public class CredentialManagerTests
     {
         CredentialManager manager = new CredentialManager(
-            target: "CredentialManagerTests",
+            target: "git:https://github.com",
             description: "Credentials used only for tests"
             );
 
