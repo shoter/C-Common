@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="Base64.cs" />
     <Compile Include="Commands\ActionCommand.cs" />
+    <Compile Include="EncoDeco\SHA1.cs" />
+    <Compile Include="EncoDeco\SHA256.cs" />
     <Compile Include="EntityFramework\IDomSelector.cs" />
     <Compile Include="EntityFramework\IRepository.cs" />
     <Compile Include="EntityFramework\RepositoryBase.cs" />
