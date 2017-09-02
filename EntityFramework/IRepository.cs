@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Common.EntityFramework
 {
@@ -9,6 +10,11 @@ namespace Common.EntityFramework
     public interface IRepository
     {
         void SaveChanges();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <example>await context.SaveChangesAsync()</example>
+        Task SaveChangesAsync();
     }
 
     public interface IRepository<TEntity> : IRepository

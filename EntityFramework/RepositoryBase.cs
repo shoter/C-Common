@@ -118,6 +118,11 @@ namespace Common.EntityFramework
 #endif
         }
 
+        public Task SaveChangesAsync()
+        {
+            return context.SaveChangesAsync();
+        }
+
 
         private bool disposed = false;
 
