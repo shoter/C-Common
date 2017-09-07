@@ -21,6 +21,7 @@ namespace Common.EntityFramework
         where TEntity : class
     {
         IEnumerable<TEntity> GetAll();
+        IQueryable<TEntity> Query { get; }
         /// <summary>
         /// Returns null if entity is not found
         /// </summary>

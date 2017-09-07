@@ -58,7 +58,7 @@ namespace Common.EntityFramework
         public virtual void Remove(int id)
         {
             var entity = GetById(id);
-            dbSet.Remove(entity);
+            Remove(entity);
         }
 
         public IQueryable<TResult> Select<TResult>(Expression<Func<TEntity, TResult>> selector)
