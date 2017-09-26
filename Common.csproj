@@ -66,6 +66,7 @@
     <Compile Include="EntityFramework\IRepository.cs" />
     <Compile Include="EntityFramework\RepositoryBase.cs" />
     <Compile Include="Exceptions\UserReadableException.cs" />
+    <Compile Include="Expressions\ExpressionExtractorUtils.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IQueryableExtensions.cs" />
