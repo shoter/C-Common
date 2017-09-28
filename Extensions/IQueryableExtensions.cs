@@ -14,5 +14,12 @@ namespace Common.Extensions
         {
             return selector.Select(query);
         }
+
+        public static List<TResult> ToList<T, TResult>(this IQueryable<T> query, Func<T, TResult> selector)
+        {
+            return query.ToList()
+                .Select(selector)
+                .ToList();
+        }
     }
 }
