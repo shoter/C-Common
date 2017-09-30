@@ -8,8 +8,8 @@ namespace Common.Operations
 {
     public class MethodResult
     {
-        public static MethodResult Success { get { return new MethodResult() { Status = MethodResultType.Success }; } }
-        public static MethodResult Failure { get { return new MethodResult() { Status = MethodResultType.Error }; } }
+        public static MethodResult Success => new MethodResult() { Status = MethodResultType.Success }; 
+        public static MethodResult Failure => new MethodResult() { Status = MethodResultType.Error }; 
 
         public MethodResultType Status { get; set; }
         public List<string> Errors { get; set; } = new List<string>();
