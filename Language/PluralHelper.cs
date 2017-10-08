@@ -17,7 +17,7 @@ namespace Common.Language
 
         public static string S(int x)
         {
-            if (x >= -1 && x <= 1) // -1, 0, 1
+            if (x == 1)
                 return "";
             return "s";
         }

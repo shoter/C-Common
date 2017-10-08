@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Common.Extensions
@@ -26,6 +27,11 @@ namespace Common.Extensions
             char[] chars = input.ToCharArray();
             chars[index] = newChar;
             return new string(chars);
+        }
+
+        public static string MultipleSpaceRemove(this string input)
+        {
+            return Regex.Replace(input, @"\s+", " ");
         }
     }
 }

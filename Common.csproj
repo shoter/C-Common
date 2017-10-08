@@ -62,7 +62,9 @@
     <Compile Include="Drawings\ColorInterpolator.cs" />
     <Compile Include="EncoDeco\SHA1.cs" />
     <Compile Include="EncoDeco\SHA256.cs" />
+    <Compile Include="EntityFramework\GenericRepository.cs" />
     <Compile Include="EntityFramework\IDomSelector.cs" />
+    <Compile Include="EntityFramework\IGenericRepository.cs" />
     <Compile Include="EntityFramework\IRepository.cs" />
     <Compile Include="EntityFramework\RepositoryBase.cs" />
     <Compile Include="Exceptions\UserReadableException.cs" />
