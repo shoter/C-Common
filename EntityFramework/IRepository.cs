@@ -31,6 +31,8 @@ namespace Common.EntityFramework
         void Add(TEntity t);
         void Remove(int id);
         void Remove(TEntity t);
+        void RemoveSpecific<TSpecific>(TSpecific entity)
+            where TSpecific : class, new();
         void RemoveRange(Expression<Func<TEntity, bool>> predicate);
         void Update(TEntity t);
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);

@@ -154,6 +154,13 @@ namespace Common.EntityFramework
             DbSet.Remove(entity);
         }
 
+        public void RemoveSpecific<TSpecific>(TSpecific entity)
+            where TSpecific: class, new()
+        {
+            var dbSet = context.Set<TSpecific>();
+            dbSet.Remove(entity);
+        }
+
         public void ReloadEntity<TAnyEntity>(TAnyEntity entity)
             where TAnyEntity : class
         {

@@ -41,7 +41,7 @@ namespace Common
 
         public static TransactionScope CreateTransactionScopeIfNotActive(IsolationLevel isolationLevel, TimeSpan? timeout = null)
         {
-            if (System.Transactions.Transaction.Current != null)
+            if (System.Transactions.Transaction.Current == null)
                 return CreateTransactionScope(isolationLevel, timeout);
             return null;
         }
