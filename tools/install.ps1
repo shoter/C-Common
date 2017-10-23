@@ -1,0 +1,1 @@
+nuget init .\ D:\programowanie\nugetServer\

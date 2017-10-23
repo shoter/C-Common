@@ -45,5 +45,19 @@ namespace Common
                 return CreateTransactionScope(isolationLevel, timeout);
             return null;
         }
+
+        public static void DebugTransaction(Transaction transaction)
+        {
+            transaction.TransactionCompleted += Transaction_TransactionCompleted;
+        }
+
+        private static void Transaction_TransactionCompleted(object sender, TransactionEventArgs e)
+        {
+            if (e.Transaction.TransactionInformation.Status == TransactionStatus.Aborted)
+            {
+                if (System.Diagnostics.Debugger.IsAttached)
+                    System.Diagnostics.Debugger.Break();
+            }
+        }
     }
 }

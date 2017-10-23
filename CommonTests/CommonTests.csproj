@@ -59,6 +59,7 @@
     <Compile Include="Expressions\ExpressionExtractorTests.cs" />
     <Compile Include="Expressions\NamedTestMethods.cs" />
     <Compile Include="MethodResultTests.cs" />
+    <Compile Include="Processses\DisposableProcessTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
