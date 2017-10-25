@@ -85,6 +85,7 @@
     <Compile Include="TransactionUtils.cs" />
     <Compile Include="utilities\AgoHelper.cs" />
     <Compile Include="utilities\DateUtils.cs" />
+    <Compile Include="utilities\JavascriptDate.cs" />
     <Compile Include="utilities\RandomGenerator.cs" />
     <Compile Include="utilities\StringUtils.cs" />
     <Compile Include="utilities\TimeHelper.cs" />
