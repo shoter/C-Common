@@ -45,6 +45,14 @@ namespace Common.EntityFramework
             return dbSet.Find(id);
         }
 
+        public virtual TEntity GetById(long? id)
+        {
+            if (id == null)
+                return null;
+
+            return dbSet.Find(id);
+        }
+
         public virtual void Add(TEntity entity)
         {
             dbSet.Add(entity);
@@ -212,6 +220,26 @@ namespace Common.EntityFramework
                 db.Entry(entity).Property(expression).IsModified = true;
                 db.SaveChanges();
             }
+        }
+
+        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            return DbSet.SingleOrDefault(predicate);
+        }
+
+        public TEntity Single(Expression<Func<TEntity, bool>> predicate)
+        {
+            return DbSet.Single(predicate);
+        }
+
+        public TEntity SingleOrDefault()
+        {
+            return DbSet.SingleOrDefault();
+        }
+
+        public TEntity Single()
+        {
+            return DbSet.Single();
         }
     }
 }

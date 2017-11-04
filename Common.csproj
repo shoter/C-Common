@@ -67,11 +67,13 @@
     <Compile Include="EntityFramework\IGenericRepository.cs" />
     <Compile Include="EntityFramework\IRepository.cs" />
     <Compile Include="EntityFramework\RepositoryBase.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Exceptions\UserReadableException.cs" />
     <Compile Include="Expressions\ExpressionExtractorUtils.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IQueryableExtensions.cs" />
+    <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Operations\MethodResult.cs" />
     <Compile Include="Operations\MethodResultError.cs" />

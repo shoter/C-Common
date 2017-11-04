@@ -32,5 +32,22 @@ namespace Common.utilities
                 dateDiffrence.Seconds
                 );
         }
+
+        public static TimeSpan CalculateDateDiffrence(int startDay, int currentDay, DateTime startTime, DateTime currentTime)
+        {
+            var dateDiffrence = DateTime.Now - startTime;
+            var dayDiffrence = currentDay - startDay;
+
+
+
+            if (currentTime.Hour < startTime.Hour)
+                dayDiffrence += 1;
+
+            return TimeSpan.FromSeconds(
+                (dayDiffrence * 24 + dateDiffrence.Hours) * MinutesInHour * SecondsInMinute +
+                dateDiffrence.Minutes * SecondsInMinute +
+                dateDiffrence.Seconds
+                );
+        }
     }
 }

@@ -42,6 +42,8 @@ namespace Common.Windows
 
             if (credential.Save() == false)
                 throw new Exception("Credential was not saved");
+
+            credential.Dispose();
         }
 
         public void RemoveCredental()
@@ -51,6 +53,7 @@ namespace Common.Windows
             if (credential.Delete() == false)
                 throw new Exception("Credential was not deleted");
 
+            credential.Dispose();
         }
     }
 }

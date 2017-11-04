@@ -26,6 +26,7 @@ namespace Common.EntityFramework
         /// Returns null if entity is not found
         /// </summary>
         TEntity GetById(int? id);
+        TEntity GetById(long? id);
         bool Any(Expression<Func<TEntity, bool>> predicate);
         void AddRange(IEnumerable<TEntity> entities);
         void Add(TEntity t);
@@ -38,6 +39,11 @@ namespace Common.EntityFramework
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
         TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
         TEntity First(Expression<Func<TEntity, bool>> predicate);
+
+        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
+        TEntity Single(Expression<Func<TEntity, bool>> predicate);
+        TEntity SingleOrDefault();
+        TEntity Single();
         TEntity First();
         IQueryable<TSelect> Apply<TSelect>(IDomSelector<TEntity, TSelect> selector);
 
