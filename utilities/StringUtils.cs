@@ -21,15 +21,15 @@ namespace Common.utilities
 
         public static string OnlyFirstUpper(this string str)
         {
-            string changed = "";
+            StringBuilder changed = new StringBuilder();
             if(str.Length > 0)
             {
-                changed += str.Substring(0, 1).ToUpper();
-                changed += str.Substring(1).ToLower();
+                changed.Append(str.Substring(0, 1).ToUpper());
+                changed.Append(str.Substring(1).ToLower());
             }
             
 
-            return changed;
+            return changed.ToString();
         }
 
         /// <summary>
@@ -40,23 +40,23 @@ namespace Common.utilities
         /// <returns></returns>
         public static string CamelCaseToWord(this string str)
         {
-            string changed = "";
+            StringBuilder changed = new StringBuilder();
             
             if(str.Length > 0)
             {
-                changed += str[0].ToLower();
+                changed.Append(str[0].ToLower());
                 for(int i = 1; i < str.Length;++i)
                 {
                     char character = str[i];
 
                     if (character.IsUpper())
-                        changed += " ";
-                    changed += character.ToLower();
-                    
+                        changed.Append(" ");
+                    changed.Append(character.ToLower());
+                   
                 }
             }
 
-            return changed;
+            return changed.ToString();
         }
 
     }
