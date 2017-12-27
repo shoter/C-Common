@@ -21,5 +21,14 @@ namespace Common.Extensions
                 .Select(selector)
                 .ToList();
         }
+
+        
+
+        public static IQueryable<T> TakeRandom<T>(this IQueryable<T> collection, int count)
+        {
+            return collection
+                .OrderBy(item => Guid.NewGuid())
+                .Take(count);
+        }
     }
 }

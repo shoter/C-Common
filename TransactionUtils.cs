@@ -43,7 +43,7 @@ namespace Common
         {
             if (System.Transactions.Transaction.Current == null)
                 return CreateTransactionScope(isolationLevel, timeout);
-            return null;
+            return new TransactionScope(System.Transactions.Transaction.Current);
         }
 
         public static void DebugTransaction(Transaction transaction)

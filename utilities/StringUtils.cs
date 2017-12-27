@@ -52,7 +52,6 @@ namespace Common.utilities
                     if (character.IsUpper())
                         changed.Append(" ");
                     changed.Append(character.ToLower());
-                   
                 }
             }
 

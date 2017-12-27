@@ -48,5 +48,17 @@ namespace Common.Operations
         {
             return result.isSuccess;
         }
+
+        public override string ToString()
+        {
+            return ToString(Environment.NewLine);
+        }
+
+        public string ToString(string separator)
+        {
+            return string.Join(separator, Errors);
+        }
+
+
     }
 }

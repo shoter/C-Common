@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.EntityFramework.SingleChanges;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -17,7 +18,7 @@ namespace Common.EntityFramework
         Task SaveChangesAsync();
     }
 
-    public interface IRepository<TEntity> : IRepository
+    public interface IRepository<TEntity> : IRepository, IDisposable
         where TEntity : class
     {
         IEnumerable<TEntity> GetAll();
@@ -31,6 +32,7 @@ namespace Common.EntityFramework
         void AddRange(IEnumerable<TEntity> entities);
         void Add(TEntity t);
         void Remove(int id);
+        void Remove(long id);
         void Remove(TEntity t);
         void RemoveSpecific<TSpecific>(TSpecific entity)
             where TSpecific : class, new();
@@ -38,6 +40,7 @@ namespace Common.EntityFramework
         void Update(TEntity t);
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
         TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+        TEntity FirstOrDefault();
         TEntity First(Expression<Func<TEntity, bool>> predicate);
 
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
@@ -70,5 +73,19 @@ namespace Common.EntityFramework
         /// <param name="value">value to which set the column</param>
         /// <example>UpdateSingleField(x => x.LastActionDateTime, x => x.ID = userID, DateTime.Now)</example>
         void UpdateSingleField<TProp>(Expression<Func<TEntity, TProp>> expression, Action<TEntity> setUnique, TProp value);
+
+        void TryRemove(int id);
+
+        void SetTimeout(int seconds);
+
+        void CreateMany<TOther>(
+            IEnumerable<TOther> collection,
+            Action<TOther, TEntity> SetUnique,
+            params ISingleChangeExpression<TEntity>[] expressions);
+
+        void UpdateMany<TOther>(
+            IEnumerable<TOther> collection,
+            Action<TOther, TEntity> SetUnique,
+            params Func<TOther, ISingleChangeExpression<TEntity>>[] expressions);
     }
 }

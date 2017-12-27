@@ -1,7 +1,9 @@
-﻿using Common.Extensions;
+﻿using Common.EntityFramework.SingleChanges;
+using Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -10,20 +12,19 @@ using System.Threading.Tasks;
 
 namespace Common.EntityFramework
 {
-    public class RepositoryBase<TEntity, TContext> : IRepository<TEntity>
+    public class RepositoryBase<TEntity, TContext> : RepositoryBaseEntityless<TContext>, IRepository<TEntity>, IDisposable
         where TEntity : class, new()
         where TContext : DbContext, new()
     {
-        protected TContext context;
+       
         protected DbSet<TEntity> dbSet;
 
         public DbSet<TEntity> DbSet { get { return dbSet; } }
 
         public virtual IQueryable<TEntity> Query { get { return dbSet.AsQueryable(); } }
 
-        public RepositoryBase(TContext context)
+        public RepositoryBase(TContext context) : base(context)
         {
-            this.context = context;
             dbSet = context.Set<TEntity>();
         }
 
@@ -69,6 +70,19 @@ namespace Common.EntityFramework
             Remove(entity);
         }
 
+        public virtual void Remove(long id)
+        {
+            var entity = GetById(id);
+            Remove(entity);
+        }
+
+        public virtual void TryRemove(int id)
+        {
+            var entity = GetById(id);
+            if (entity != null)
+                Remove(entity);
+        }
+
         public IQueryable<TResult> Select<TResult>(Expression<Func<TEntity, TResult>> selector)
         {
             return dbSet.Select(selector);
@@ -109,61 +123,23 @@ namespace Common.EntityFramework
             context.Entry(entity).State = EntityState.Modified;
         }
 
-        public void SaveChanges()
-        {
-#if DEBUG
-            try
-            {
-#endif
-                context.SaveChanges();
-#if DEBUG
-            }
-            catch(Exception e)
-            {
-                throw e; //sometimes there are errors which have properties that are only seen by viewing 'e' variable. 
-                //Weird way but only good way to deal with that.
-            }
-#endif
-        }
-
-        public Task SaveChangesAsync()
-        {
-            return context.SaveChangesAsync();
-        }
 
 
-        private bool disposed = false;
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        
 
         public TEntity First()
         {
             return Query.First();
         }
 
-        public virtual void Remove(TEntity  entity)
+        public virtual void Remove(TEntity entity)
         {
             DbSet.Remove(entity);
         }
 
         public void RemoveSpecific<TSpecific>(TSpecific entity)
-            where TSpecific: class, new()
+            where TSpecific : class, new()
         {
             var dbSet = context.Set<TSpecific>();
             dbSet.Remove(entity);
@@ -175,7 +151,7 @@ namespace Common.EntityFramework
             context.Entry(entity).Reload();
         }
 
-        public void ReloadNavigationProperty<TElement>(TEntity entity, Expression<Func<TEntity, ICollection<TElement>>> navigationProperty) 
+        public void ReloadNavigationProperty<TElement>(TEntity entity, Expression<Func<TEntity, ICollection<TElement>>> navigationProperty)
             where TElement : class
         {
             context.Entry(entity).Collection(navigationProperty).Query();
@@ -191,6 +167,12 @@ namespace Common.EntityFramework
             return dbSet.Any(predicate);
         }
 
+        /// <summary>
+        /// Updates one field on one particular record. Also it saved data after operation completion
+        /// </summary>
+        /// <param name="expression">pointer to the field which need to be updated</param>
+        /// <param name="setUnique">actions that will led to setting primary keys</param>
+        /// <param name="value">value that will be placed in place pointer by expression</param>
         public void UpdateSingleField<TProp>(Expression<Func<TEntity, TProp>> expression, Action<TEntity> setUnique, TProp value)
         {
             var entity = new TEntity();
@@ -222,6 +204,52 @@ namespace Common.EntityFramework
             }
         }
 
+
+        public void UpdateMany<TOther>(
+            IEnumerable<TOther> collection,
+            Action<TOther, TEntity> SetUnique,
+            params Func<TOther, ISingleChangeExpression<TEntity>>[] expressions)
+        {
+            using (var db = new TContext())
+            {
+                foreach (var item in collection)
+                {
+                    TEntity entity = new TEntity();
+                    SetUnique(item, entity);
+                    foreach (var expression in expressions)
+                        expression(item).Set(entity);
+
+                    db.Set<TEntity>().Attach(entity);
+                    foreach (var expression in expressions)
+                        expression(item).NotifyAboutChange(db, entity);
+                }
+                db.SaveChanges();
+            }
+        }
+
+        public void CreateMany<TOther>(
+            IEnumerable<TOther> collection,
+            Action<TOther, TEntity> SetUnique,
+            params ISingleChangeExpression<TEntity>[] expressions)
+        {
+            using (var db = new TContext())
+            {
+                foreach (var item in collection)
+                {
+                    TEntity entity = new TEntity();
+                    SetUnique(item, entity);
+                    foreach (var expression in expressions)
+                        expression.Set(entity);
+
+                    db.Set<TEntity>().Attach(entity);
+                    foreach (var expression in expressions)
+                        expression.NotifyAboutNew(db, entity);
+                }
+                db.SaveChanges();
+            }
+        }
+
+
         public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
             return DbSet.SingleOrDefault(predicate);
@@ -240,6 +268,16 @@ namespace Common.EntityFramework
         public TEntity Single()
         {
             return DbSet.Single();
+        }
+
+        public void SetTimeout(int seconds)
+        {
+            ((IObjectContextAdapter)context).ObjectContext.CommandTimeout = seconds;
+        }
+
+        public TEntity FirstOrDefault()
+        {
+            return dbSet.FirstOrDefault();
         }
     }
 }

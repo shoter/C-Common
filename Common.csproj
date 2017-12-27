@@ -29,9 +29,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CredentialManagement, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Sociatis\packages\CredentialManagement.1.0.2\lib\net35\CredentialManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="DataTables.AspNet.Core, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\DataTables.AspNet.Core.2.0.2\lib\net45\DataTables.AspNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DataTables.AspNet.Mvc5, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\DataTables.AspNet.Mvc5.2.0.2\lib\net45\DataTables.AspNet.Mvc5.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\Sociatis\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -39,13 +54,40 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\Sociatis\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -58,15 +100,27 @@
   <ItemGroup>
     <Compile Include="Base64.cs" />
     <Compile Include="Commands\ActionCommand.cs" />
+    <Compile Include="Configs\AppSetting.cs" />
+    <Compile Include="Configs\ConfigManager.cs" />
+    <Compile Include="Converters\StringConverter.cs" />
+    <Compile Include="Converters\StringListConverter.cs" />
+    <Compile Include="DataTables\DataTablesExtensions.cs" />
     <Compile Include="Drawings\ColorExtensions.cs" />
     <Compile Include="Drawings\ColorInterpolator.cs" />
     <Compile Include="EncoDeco\SHA1.cs" />
     <Compile Include="EncoDeco\SHA256.cs" />
+    <Compile Include="EntityFramework\Enums\Enumator.cs" />
     <Compile Include="EntityFramework\GenericRepository.cs" />
     <Compile Include="EntityFramework\IDomSelector.cs" />
     <Compile Include="EntityFramework\IGenericRepository.cs" />
     <Compile Include="EntityFramework\IRepository.cs" />
     <Compile Include="EntityFramework\RepositoryBase.cs" />
+    <Compile Include="EntityFramework\RepositoryBaseEntityless.cs" />
+    <Compile Include="EntityFramework\SingleChanges\ForeignEntittyChangeExpression.cs" />
+    <Compile Include="EntityFramework\SingleChanges\ISingleChangeExpression.cs" />
+    <Compile Include="EntityFramework\SingleChanges\ISingleChangeRepository.cs" />
+    <Compile Include="EntityFramework\SingleChanges\SingleChangeExpression.cs" />
+    <Compile Include="EntityFramework\SingleChanges\SingleChangeRepository.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Exceptions\UserReadableException.cs" />
     <Compile Include="Expressions\ExpressionExtractorUtils.cs" />
@@ -84,6 +138,8 @@
     <Compile Include="Processses\ProcessExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tasks\TaskExtension.cs" />
+    <Compile Include="Temporary\TempFile.cs" />
+    <Compile Include="Temporary\WindowsTempFile.cs" />
     <Compile Include="TransactionUtils.cs" />
     <Compile Include="utilities\AgoHelper.cs" />
     <Compile Include="utilities\DateUtils.cs" />
@@ -94,10 +150,15 @@
     <Compile Include="utilities\UniqueIDGenerator.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Windows\CredentialManager.cs" />
+    <Compile Include="Words\Similiraties\ISimilarityAlgorithm.cs" />
+    <Compile Include="Words\Similiraties\ShoterSimilarityAlgorithm.cs" />
+    <Compile Include="Words\Similiraties\ShoterSimilarityComparedPair.cs" />
     <Compile Include="WPF\Controls\CloseableHeader.xaml.cs">
       <DependentUpon>CloseableHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\Controls\CloseableTabItem.cs" />
+    <Compile Include="Xml\KeyWithType.cs" />
+    <Compile Include="Xml\SerializableDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -111,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ComponentModel\" />
+    <Folder Include="IO\" />
     <Folder Include="Transactions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
