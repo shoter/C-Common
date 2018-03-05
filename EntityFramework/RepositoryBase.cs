@@ -76,11 +76,20 @@ namespace Common.EntityFramework
             Remove(entity);
         }
 
-        public virtual void TryRemove(int id)
+        public virtual IQueryable<IGrouping<TKey, TEntity>> GroupBy<TKey>(Expression<Func<TEntity, TKey>> keySelector)
+        {
+            return dbSet.GroupBy(keySelector);
+        }
+
+        public virtual bool TryRemove(int id)
         {
             var entity = GetById(id);
             if (entity != null)
+            {
                 Remove(entity);
+                return true;
+            }
+            return false;
         }
 
         public IQueryable<TResult> Select<TResult>(Expression<Func<TEntity, TResult>> selector)
@@ -278,6 +287,13 @@ namespace Common.EntityFramework
         public TEntity FirstOrDefault()
         {
             return dbSet.FirstOrDefault();
+        }
+
+        public void Remove(Expression<Func<TEntity, bool>> predicate)
+        {
+            var entities = Where(predicate).ToList();
+            foreach (var entity in entities)
+                Remove(entity);
         }
     }
 }

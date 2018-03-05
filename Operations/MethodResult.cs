@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,6 +60,11 @@ namespace Common.Operations
             return string.Join(separator, Errors);
         }
 
+        public void ThrowUserReadableExceptionIfError(string separator = ",")
+        {
+            if (IsError)
+                throw new UserReadableException(ToString(separator));
+        }
 
     }
 }

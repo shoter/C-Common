@@ -16,5 +16,10 @@ namespace Common.Words.Similiraties
             Pair = pair;
             Score = score;
         }
+
+        public override string ToString()
+        {
+            return $"{Pair} - {Score}";
+        }
     }
 }

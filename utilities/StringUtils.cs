@@ -38,7 +38,7 @@ namespace Common.utilities
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string CamelCaseToWord(this string str)
+        public static string PascalCaseToWord(this string str)
         {
             StringBuilder changed = new StringBuilder();
             
@@ -56,6 +56,24 @@ namespace Common.utilities
             }
 
             return changed.ToString();
+        }
+
+        public static int GetNumberAtEnd(this string str)
+        {
+            var stack = new Stack<char>();
+
+            for (var i = str.Length - 1; i >= 0; i--)
+            {
+                if (!char.IsNumber(str[i]))
+                {
+                    break;
+                }
+
+                stack.Push(str[i]);
+            }
+            if (stack.Any() == false)
+                throw new Exception("No number at end!");
+            return int.Parse(new string(stack.ToArray()));
         }
 
     }

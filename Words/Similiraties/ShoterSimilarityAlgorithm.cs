@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,21 +14,22 @@ namespace Common.Words.Similiraties
             var orgSet = createPairsFromString(original.Replace(" ", ""));
             var compSet = createPairsFromString(compared.Replace(" ", ""));
 
-            var similarPairs = createSimiliarPairs(orgSet, compSet);
+            var similarPairs = createSimiliarPairs(orgSet, compSet).ToList();
 
 
             double simScore = 0.0f;
 
             foreach (var simPair in similarPairs)
             {
-                foreach(var orgPair in orgSet)
+                simScore += simPair.Score;
+                /*foreach(var orgPair in orgSet)
                 {
                     if (orgPair == simPair.Pair)
                     {
                         simScore += simPair.Score;
                         break;
                     }
-                } 
+                } */
             }
 
             return (2 * simScore) / (orgSet.Count + compSet.Count);
@@ -52,7 +54,8 @@ namespace Common.Words.Similiraties
             {
                 var compPair = compSet[compPos];
                 int smallestDistance = int.MaxValue;
-                for (int orgPos = 0; orgPos < orgSet.Count; ++orgPos)
+                double factor = 1f;
+                for (int orgPos = 0; orgPos < orgSet.Count; ++orgPos) 
                 {
                     var orgPair = orgSet[orgPos];
 
@@ -65,9 +68,43 @@ namespace Common.Words.Similiraties
                     }
                 }
 
+                if (smallestDistance == int.MaxValue)
+                {
+                    factor = 0.8f;
+                    for (int orgPos = 0; orgPos < orgSet.Count; ++orgPos)
+                    {
+                        var orgPair = orgSet[orgPos];
+
+                        if (orgPair == compPair.ReverseAsString())
+                        {
+                            int distance = Math.Abs(compPos - orgPos);
+                            if (distance < smallestDistance && distance < 6)
+                                smallestDistance = distance;
+
+                        }
+                    }
+                }
+
+                if (smallestDistance == int.MaxValue)
+                {
+                    factor = 0.5f;
+                    for (int orgPos = 0; orgPos < orgSet.Count; ++orgPos)
+                    {
+                        var orgPair = orgSet[orgPos];
+
+                        if (orgPair[0] == compPair[0] || orgPair[0] == compPair[1] || orgPair[1] == compPair[0] || orgPair[1] == compPair[1])
+                        {
+                            int distance = Math.Abs(compPos - orgPos);
+                            if (distance < smallestDistance && distance < 3)
+                                smallestDistance = distance;
+
+                        }
+                    }
+                }
+
                 if (smallestDistance < int.MaxValue)
                 {
-                    double similarityScore = Math.Pow(1f - smallestDistance / 20f, 2);
+                    double similarityScore = Math.Pow(1f - smallestDistance / 20f, 2) * factor;
                     yield return new ShoterSimilarityComparedPair(compPair, similarityScore);
                 }
             }

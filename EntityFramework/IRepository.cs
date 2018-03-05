@@ -34,6 +34,8 @@ namespace Common.EntityFramework
         void Remove(int id);
         void Remove(long id);
         void Remove(TEntity t);
+        void Remove(Expression<Func<TEntity, bool>> predicate);
+
         void RemoveSpecific<TSpecific>(TSpecific entity)
             where TSpecific : class, new();
         void RemoveRange(Expression<Func<TEntity, bool>> predicate);
@@ -74,7 +76,7 @@ namespace Common.EntityFramework
         /// <example>UpdateSingleField(x => x.LastActionDateTime, x => x.ID = userID, DateTime.Now)</example>
         void UpdateSingleField<TProp>(Expression<Func<TEntity, TProp>> expression, Action<TEntity> setUnique, TProp value);
 
-        void TryRemove(int id);
+        bool TryRemove(int id);
 
         void SetTimeout(int seconds);
 
@@ -87,5 +89,7 @@ namespace Common.EntityFramework
             IEnumerable<TOther> collection,
             Action<TOther, TEntity> SetUnique,
             params Func<TOther, ISingleChangeExpression<TEntity>>[] expressions);
+
+        IQueryable<IGrouping<TKey, TEntity>> GroupBy<TKey>(Expression<Func<TEntity, TKey>> keySelector);
     }
 }

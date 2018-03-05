@@ -48,6 +48,9 @@
     <Reference Include="DataTables.AspNet.Mvc5, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Sociatis\packages\DataTables.AspNet.Mvc5.2.0.2\lib\net45\DataTables.AspNet.Mvc5.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Sociatis\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\Sociatis\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -104,6 +107,7 @@
     <Compile Include="Configs\ConfigManager.cs" />
     <Compile Include="Converters\StringConverter.cs" />
     <Compile Include="Converters\StringListConverter.cs" />
+    <Compile Include="Converters\UnitConverter.cs" />
     <Compile Include="DataTables\DataTablesExtensions.cs" />
     <Compile Include="Drawings\ColorExtensions.cs" />
     <Compile Include="Drawings\ColorInterpolator.cs" />
@@ -122,13 +126,16 @@
     <Compile Include="EntityFramework\SingleChanges\SingleChangeExpression.cs" />
     <Compile Include="EntityFramework\SingleChanges\SingleChangeRepository.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="ForEnums\EnumSelectList.cs" />
     <Compile Include="Exceptions\UserReadableException.cs" />
     <Compile Include="Expressions\ExpressionExtractorUtils.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\IListExtension.cs" />
     <Compile Include="Extensions\IQueryableExtensions.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Maths\Percentage.cs" />
     <Compile Include="Operations\MethodResult.cs" />
     <Compile Include="Operations\MethodResultError.cs" />
     <Compile Include="Operations\MethodResultType.cs" />
@@ -140,6 +147,12 @@
     <Compile Include="Tasks\TaskExtension.cs" />
     <Compile Include="Temporary\TempFile.cs" />
     <Compile Include="Temporary\WindowsTempFile.cs" />
+    <Compile Include="Time\FixedTimeProvider.cs" />
+    <Compile Include="Time\ITimeProvider.cs" />
+    <Compile Include="Time\StandardTimeProvider.cs" />
+    <Compile Include="Time\TimeProviders.cs" />
+    <Compile Include="Transactions\ITransactionScopeProvider.cs" />
+    <Compile Include="Transactions\StandardTransactionScopeProvider.cs" />
     <Compile Include="TransactionUtils.cs" />
     <Compile Include="utilities\AgoHelper.cs" />
     <Compile Include="utilities\DateUtils.cs" />
@@ -151,6 +164,7 @@
     <Compile Include="Utils.cs" />
     <Compile Include="Windows\CredentialManager.cs" />
     <Compile Include="Words\Similiraties\ISimilarityAlgorithm.cs" />
+    <Compile Include="Words\Similiraties\LevenshteinSimilarity.cs" />
     <Compile Include="Words\Similiraties\ShoterSimilarityAlgorithm.cs" />
     <Compile Include="Words\Similiraties\ShoterSimilarityComparedPair.cs" />
     <Compile Include="WPF\Controls\CloseableHeader.xaml.cs">
@@ -173,7 +187,10 @@
   <ItemGroup>
     <Folder Include="ComponentModel\" />
     <Folder Include="IO\" />
-    <Folder Include="Transactions\" />
+    <Folder Include="Tests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

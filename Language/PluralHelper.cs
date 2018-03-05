@@ -10,16 +10,28 @@ namespace Common.Language
     {
         public static string Days(int days)
         {
-            if (days == 1)
-                return "day";
-            return "days";
+            if (isPlural(days))
+                return "days";
+            return "day";
+        }
+
+        public static bool isPlural(int x)
+        {
+            if (x == 1)
+                return false;
+            return true;
         }
 
         public static string S(int x)
         {
-            if (x == 1)
-                return "";
-            return "s";
+            if (isPlural(x))
+                return "s";
+            return "";
+        }
+
+        public static string Else(int x, string singular, string plural)
+        {
+            return isPlural(x) ? plural : singular;
         }
     }
 }
