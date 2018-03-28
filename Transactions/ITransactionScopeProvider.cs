@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Tests.Transactions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,13 +10,13 @@ namespace Common.Transactions
 {
     public interface ITransactionScopeProvider
     {
-        TransactionScope CreateTransactionScope();
+        ITransactionScope CreateTransactionScope();
 
-        TransactionScope CreateTransactionScope(TimeSpan timeout);
+        ITransactionScope CreateTransactionScope(TimeSpan timeout);
 
-        TransactionScope CreateTransactionScope(IsolationLevel option, TimeSpan? timeout = null);
+        ITransactionScope CreateTransactionScope(IsolationLevel option, TimeSpan? timeout = null);
 
-        TransactionScope CreateNewTransactionScope(IsolationLevel option, TimeSpan? timeout = null);
+        ITransactionScope CreateNewTransactionScope(IsolationLevel option, TimeSpan? timeout = null);
 
     }
 }

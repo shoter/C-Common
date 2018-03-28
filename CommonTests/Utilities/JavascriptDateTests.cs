@@ -78,7 +78,7 @@ namespace CommonTests.Utilities
             Assert.AreEqual(2005, date.UtcDate.Year);
         }
 
-        [TestMethod]
+       /* [TestMethod]
         public void JavascriptSpecificTick2Test()
         {
             var tick = 1112670330000;
@@ -96,7 +96,7 @@ namespace CommonTests.Utilities
             var date = new JavascriptDate(new DateTime(2001, 2, 1, 0, 0, 0));
 
             Assert.AreEqual(tick, date.JavascriptMilliseconds);
-        }
+        }*/
 
         [TestMethod]
         public void JavascriptCurrentDateTest()

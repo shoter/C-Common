@@ -43,6 +43,11 @@ namespace Common.Extensions
             return new string(charArray);
         }
 
+        public static string FormatString(this string s, params object[] arguments)
+        {
+            return string.Format(s, arguments);
+        }
+
 
     }
 }

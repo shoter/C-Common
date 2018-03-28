@@ -29,6 +29,19 @@ namespace Common.Drawings
             return color;
         }
 
+        public static Color Lerp(double lambda, params Color[] colors)
+        {
+            double scaled = lambda * (double)(colors.Length - 1);
+            int index = (int)scaled;
+
+            Color start = colors[index];
+            Color end = colors[index + 1];
+
+            double m = (1.0 / (colors.Length - 1));
+
+            return Lerp(start, end, (lambda % m) / m);
+        }
+
         private static byte InterpolateComponent(
             Color endPoint1,
             Color endPoint2,

@@ -147,6 +147,8 @@
     <Compile Include="Tasks\TaskExtension.cs" />
     <Compile Include="Temporary\TempFile.cs" />
     <Compile Include="Temporary\WindowsTempFile.cs" />
+    <Compile Include="Tests\Transactions\ITransactionScope.cs" />
+    <Compile Include="Tests\Transactions\StandardTransactionScope.cs" />
     <Compile Include="Time\FixedTimeProvider.cs" />
     <Compile Include="Time\ITimeProvider.cs" />
     <Compile Include="Time\StandardTimeProvider.cs" />
@@ -187,7 +189,6 @@
   <ItemGroup>
     <Folder Include="ComponentModel\" />
     <Folder Include="IO\" />
-    <Folder Include="Tests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />

@@ -1,6 +1,7 @@
 ﻿using Common.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,14 @@ namespace Common.Operations
         public MethodResult(string error)
         {
             AddError(error);
+        }
+        public MethodResult(object error)
+        {
+            Type type = error.GetType();
+
+            var attribute = type.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+            AddError(attribute?.ToString());
         }
 
         public bool IsError { get { return Status == MethodResultType.Error; } }

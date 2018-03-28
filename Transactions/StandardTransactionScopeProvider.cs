@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Tests.Transactions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,20 +16,20 @@ namespace Common.Transactions
         private static int maxTimeout = 20;
 #endif
 
-        public TransactionScope CreateTransactionScope()
+        public ITransactionScope CreateTransactionScope()
         {
             return CreateTransactionScope(IsolationLevel.ReadCommitted);
         }
 
-        public TransactionScope CreateTransactionScope(TimeSpan timeout)
+        public ITransactionScope CreateTransactionScope(TimeSpan timeout)
         {
             return CreateTransactionScope(IsolationLevel.ReadCommitted, timeout);
         }
 
-        public TransactionScope CreateTransactionScope(IsolationLevel isolationLevel, TimeSpan? timeout = null)
+        public ITransactionScope CreateTransactionScope(IsolationLevel isolationLevel, TimeSpan? timeout = null)
         {
             TransactionOptions transactionOptions = createTransactionOptions(ref isolationLevel, timeout);
-            var trs = new TransactionScope(TransactionScopeOption.Required, transactionOptions);
+            var trs = new StandardTransactionScope(TransactionScopeOption.Required, transactionOptions);
             debugCurrentTransaction();
             return trs;
         }
@@ -38,10 +39,10 @@ namespace Common.Transactions
             TransactionUtils.DebugTransaction(Transaction.Current);
         }
 
-        public TransactionScope CreateNewTransactionScope(IsolationLevel isolationLevel, TimeSpan? timeout = null)
+        public ITransactionScope CreateNewTransactionScope(IsolationLevel isolationLevel, TimeSpan? timeout = null)
         {
             TransactionOptions transactionOptions = createTransactionOptions(ref isolationLevel, timeout);
-            var trs = new TransactionScope(TransactionScopeOption.RequiresNew, transactionOptions);
+            var trs = new StandardTransactionScope(TransactionScopeOption.RequiresNew, transactionOptions);
             debugCurrentTransaction();
             return trs;
         }

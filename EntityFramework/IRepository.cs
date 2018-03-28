@@ -61,6 +61,11 @@ namespace Common.EntityFramework
 
         IOrderedQueryable<TEntity> OrderBy<TValue>(Expression<Func<TEntity, TValue>> keySelector);
 
+        /// <summary>
+        //     Reloads the entity from the database overwriting any property values with values
+        //     from the database. The entity will be in the Unchanged state after calling this
+        //     method.
+        /// </summary>
         void ReloadEntity<TAnyEntity>(TAnyEntity entity)
             where TAnyEntity : class;
 
