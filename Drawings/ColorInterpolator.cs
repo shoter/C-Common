@@ -35,7 +35,10 @@ namespace Common.Drawings
             int index = (int)scaled;
 
             Color start = colors[index];
-            Color end = colors[index + 1];
+
+            Color end = start;
+            if (index <= colors.Length - 2)
+                end = colors[index + 1];
 
             double m = (1.0 / (colors.Length - 1));
 

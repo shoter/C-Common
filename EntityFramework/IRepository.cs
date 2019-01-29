@@ -26,15 +26,20 @@ namespace Common.EntityFramework
         /// <summary>
         /// Returns null if entity is not found
         /// </summary>
-        TEntity GetById(int? id);
-        TEntity GetById(long? id);
+        TEntity GetById(int id);
+        Task<TEntity> GetByIdAsync(int id);
+        TEntity GetById(long id);
+        Task<TEntity> GetByIdAsync(long id);
         bool Any(Expression<Func<TEntity, bool>> predicate);
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);
         void AddRange(IEnumerable<TEntity> entities);
         void Add(TEntity t);
         void Remove(int id);
         void Remove(long id);
         void Remove(TEntity t);
         void Remove(Expression<Func<TEntity, bool>> predicate);
+        void Remove<TSpecificEntity>(Action<TSpecificEntity> setUnique)
+            where TSpecificEntity : class, new();
 
         void RemoveSpecific<TSpecific>(TSpecific entity)
             where TSpecific : class, new();
@@ -42,7 +47,9 @@ namespace Common.EntityFramework
         void Update(TEntity t);
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
         TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
         TEntity FirstOrDefault();
+        Task<TEntity> FirstOrDefaultAsync();
         TEntity First(Expression<Func<TEntity, bool>> predicate);
 
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
@@ -70,6 +77,9 @@ namespace Common.EntityFramework
             where TAnyEntity : class;
 
         void ReloadNavigationProperty<TElement>(TEntity entity, Expression<Func<TEntity, ICollection<TElement>>> navigationProperty)
+            where TElement : class;
+
+        void ReloadNavigationProperty<TElement>(TEntity entity, Expression<Func<TEntity, TElement>> navigationProperty)
             where TElement : class;
 
         /// <summary>

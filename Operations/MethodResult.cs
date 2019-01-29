@@ -23,11 +23,9 @@ namespace Common.Operations
         }
         public MethodResult(object error)
         {
-            Type type = error.GetType();
+            var err = error.GetEnumAttribute<DescriptionAttribute>();
 
-            var attribute = type.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-            AddError(attribute?.ToString());
+            AddError(err?.Description);
         }
 
         public bool IsError { get { return Status == MethodResultType.Error; } }
@@ -73,6 +71,13 @@ namespace Common.Operations
         {
             if (IsError)
                 throw new UserReadableException(ToString(separator));
+        }
+
+        public bool Is(object enumError)
+        {
+            var err = enumError.GetEnumAttribute<DescriptionAttribute>();
+
+            return Errors.Contains(err.Description);
         }
 
     }

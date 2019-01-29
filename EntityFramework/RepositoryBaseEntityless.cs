@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,15 @@ namespace Common.EntityFramework
 
         public RepositoryBaseEntityless(TContext context)
         {
+#if DEBUG
+            context.Database.Log = writeLine;
+#endif
             this.context = context;
+        }
+
+        private void writeLine(string line)
+        {
+            Debug.WriteLine(line);
         }
 
         public void SaveChanges()

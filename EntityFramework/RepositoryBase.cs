@@ -16,7 +16,7 @@ namespace Common.EntityFramework
         where TEntity : class, new()
         where TContext : DbContext, new()
     {
-       
+
         protected DbSet<TEntity> dbSet;
 
         public DbSet<TEntity> DbSet { get { return dbSet; } }
@@ -38,20 +38,24 @@ namespace Common.EntityFramework
             return Query.ToList();
         }
 
-        public virtual TEntity GetById(int? id)
+        public virtual TEntity GetById(int id)
         {
-            if (id == null)
-                return null;
-
             return dbSet.Find(id);
         }
 
-        public virtual TEntity GetById(long? id)
+        public virtual Task<TEntity> GetByIdAsync(int id)
         {
-            if (id == null)
-                return null;
+            return dbSet.FindAsync(id);
+        }
 
-            return dbSet.Find(id);
+        public virtual Task<TEntity> GetByIdAsync(long id)
+        {
+            return dbSet.FindAsync(id);
+        }
+
+        public virtual TEntity GetById(long id)
+        {
+                        return dbSet.Find(id);
         }
 
         public virtual void Add(TEntity entity)
@@ -112,6 +116,16 @@ namespace Common.EntityFramework
             return Query.FirstOrDefault(predicate);
         }
 
+        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Query.FirstOrDefaultAsync(predicate);
+        }
+
+        public Task<TEntity> FirstOrDefaultAsync()
+        {
+            return Query.FirstOrDefaultAsync();
+        }
+
         public TEntity First(Expression<Func<TEntity, bool>> predicate)
         {
             return Query.First(predicate);
@@ -135,7 +149,7 @@ namespace Common.EntityFramework
 
 
 
-        
+
 
         public TEntity First()
         {
@@ -166,6 +180,12 @@ namespace Common.EntityFramework
             context.Entry(entity).Collection(navigationProperty).Query();
         }
 
+        public void ReloadNavigationProperty<TElement>(TEntity entity, Expression<Func<TEntity, TElement>> navigationProperty)
+            where TElement : class
+        {
+            context.Entry(entity).Reference(navigationProperty).Load();
+        }
+
         public IQueryable<TEntity> Include<TProperty>(Expression<Func<TEntity, TProperty>> predicate)
         {
             return Query.Include(predicate);
@@ -174,6 +194,11 @@ namespace Common.EntityFramework
         public bool Any(Expression<Func<TEntity, bool>> predicate)
         {
             return dbSet.Any(predicate);
+        }
+
+        public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return dbSet.AnyAsync(predicate);
         }
 
         /// <summary>
@@ -209,6 +234,20 @@ namespace Common.EntityFramework
             {
                 db.Set<TEntity>().Attach(entity);
                 db.Entry(entity).Property(expression).IsModified = true;
+                db.SaveChanges();
+            }
+        }
+
+        public void Remove<TSpecificEntity>(Action<TSpecificEntity> setUnique)
+            where TSpecificEntity: class, new()
+        {
+            var entity = new TSpecificEntity();
+            setUnique(entity);
+
+            using (var db = new TContext())
+            {
+                db.Set<TSpecificEntity>().Attach(entity);
+                db.Entry(entity).State = EntityState.Deleted;
                 db.SaveChanges();
             }
         }

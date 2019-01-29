@@ -33,5 +33,11 @@ namespace Common.Extensions
 
             return elements.Count() > 0;
         }
+
+        public static IList<T> AddRet<T>(this IList<T> list, T item)
+        {
+            list.Add(item);
+            return list;
+        }
     }
 }

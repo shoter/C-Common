@@ -33,5 +33,10 @@ namespace Common
 
             return (TAttribute)memberInfo.GetCustomAttributes(typeof(TAttribute), true).FirstOrDefault() ;
         }
+
+        public static IEnumerable<TEnum> ToArray<TEnum>()
+        {
+            return Enum.GetValues(typeof(TEnum)).Cast<TEnum>();
+        }
     }
 }
